@@ -13,14 +13,41 @@ object EpsilonGreedy {
   // prd = Pseudo Random Double
   private def prd : Double = {
     val randomNumber = Random.nextDouble()
-    println("random number: " + randomNumber )
+    //println("random number: " + randomNumber )
     randomNumber
   }
 
   def main(args: Array[String]): Unit = {
-    val eg : EpsilonGreedy = new EpsilonGreedy(0.9, 5)
-    eg.printAttrs
-    eg.returnArmForExplorationOrExperimentation
+    //val eg : EpsilonGreedy = new EpsilonGreedy(0.9, 5)
+    //eg.returnArmForExplorationOrExperimentation
+
+    sanityCheck(20, 5000)
+  }
+
+  // TODO: this should be in src/test/scala/epsilon_greedy but I don't
+  // know how to do that
+  import java.io._
+  def sanityCheck(numRuns: Int, iterationsPerRun : Int) = {
+    val file = new File("/home/brycemcd/Desktop/epsilonGreedySanityCheck.txt")
+    // NOTE: file should take the shape:
+    // test #, iteration #, epsilon value, nArms value, explore or exploit, index chosen, random number to compare to epsilon
+
+    val bw = new BufferedWriter(new FileWriter(file))
+
+
+    for(i <- (0 until numRuns)) {
+      val randEps = Random.nextDouble
+      val randArms = Random.nextInt(20)
+      val eg : EpsilonGreedy = new EpsilonGreedy(randEps, randArms)
+
+      for(g <- (0 until iterationsPerRun)) {
+        val chosen = eg.returnArmForExplorationOrExperimentation
+        bw.write(i + "," + g + "," + randEps + "," + randArms + "," + chosen._1  + "," + chosen._2 + "," + chosen._3 + "\n")
+      }
+      println(s"test $i complete")
+    }
+
+    bw.close()
   }
 }
 
@@ -50,25 +77,24 @@ class EpsilonGreedy (
 
 
   def printAttrs = {
-    println("----vals")
+    println("  ----vals")
     println(epsilon)
     println(nArms)
-    println("----vals")
+    println("  ----vals")
   }
 
-  def returnArmForExplorationOrExperimentation : Int = {
-    if (EpsilonGreedy.prd > epsilon) {
-      println("exploiting best known choice: " + EpsilonGreedy.highestKnownRewardIndex)
-      EpsilonGreedy.highestKnownRewardIndex
+  def returnArmForExplorationOrExperimentation() : Tuple3[String, Int, Double] = {
+    val numChosen = EpsilonGreedy.prd
+    if (numChosen > epsilon) {
+      ("exploit", EpsilonGreedy.highestKnownRewardIndex, numChosen)
     } else {
-      println("exploring options")
-      randomArm
+      ("explore", randomArm, numChosen)
     }
   }
 
   def randomArm() : Int = {
     val randomIndex = Random.nextInt( EpsilonGreedyResults.rewards.length + 1 )
-    println("random index: " + randomIndex )
+    //println("random index: " + randomIndex )
     randomIndex
   }
 }

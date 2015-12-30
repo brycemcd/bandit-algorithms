@@ -21,32 +21,8 @@ object EpsilonGreedy {
     //val eg : EpsilonGreedy = new EpsilonGreedy(0.9, 5)
     //eg.returnArmForExplorationOrExperimentation
 
-    sanityCheck(10, 150000)
-  }
-
-  // TODO: this should be in src/test/scala/epsilon_greedy but I don't
-  // know how to do that
-  import java.io._
-  def sanityCheck(numRuns: Int, iterationsPerRun : Int) = {
-    val file = new File("/home/brycemcd/Desktop/epsilonGreedySanityCheck.txt")
-    // NOTE: file should take the shape:
-    // test #, iteration #, epsilon value, nArms value, explore or exploit, index chosen, random number to compare to epsilon
-
-    val bw = new BufferedWriter(new FileWriter(file))
-
-    for(i <- (0 until numRuns)) {
-      val randEps = Random.nextDouble
-      val randArms = Random.nextInt(20)
-      val eg : EpsilonGreedy = new EpsilonGreedy(randEps, randArms)
-
-      for(g <- (0 until iterationsPerRun)) {
-        val chosen = eg.returnArmForExplorationOrExperimentation
-        bw.write(i + "," + g + "," + randEps + "," + randArms + "," + chosen._1  + "," + chosen._2 + "," + chosen._3 + "\n")
-      }
-      println(s"test $i complete")
-    }
-
-    bw.close()
+    EpsilonGreedySanityCheck.sanityCheck(10, 150000,
+      "/home/brycemcd/Desktop/epsilonGreedySanityCheck.txt")
   }
 }
 

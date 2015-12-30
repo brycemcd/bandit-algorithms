@@ -21,7 +21,7 @@ object EpsilonGreedy {
     //val eg : EpsilonGreedy = new EpsilonGreedy(0.9, 5)
     //eg.returnArmForExplorationOrExperimentation
 
-    sanityCheck(20, 5000)
+    sanityCheck(10, 150000)
   }
 
   // TODO: this should be in src/test/scala/epsilon_greedy but I don't
@@ -33,7 +33,6 @@ object EpsilonGreedy {
     // test #, iteration #, epsilon value, nArms value, explore or exploit, index chosen, random number to compare to epsilon
 
     val bw = new BufferedWriter(new FileWriter(file))
-
 
     for(i <- (0 until numRuns)) {
       val randEps = Random.nextDouble

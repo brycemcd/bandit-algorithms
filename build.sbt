@@ -4,5 +4,5 @@ settings(
   organization := "com.github.brycemcd",
   version := "0.0.1",
   scalaVersion := "2.11.7",
-  mainClass := Some("EpsilonGreedySanityCheck")
+  mainClass in (Compile, run) := Some("com.github.brycemcd.bandit_algorithms.Softmax")
 )

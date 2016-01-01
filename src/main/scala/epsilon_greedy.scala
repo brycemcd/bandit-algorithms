@@ -2,30 +2,6 @@ package com.github.brycemcd.bandit_algorithms
 
 import scala.util.Random
 
-object EpsilonGreedy {
-
-  // a.k.a. indMax from the book
-  def highestKnownRewardIndex : Int = {
-    val highestReward = EpsilonGreedyResults.rewards.max
-    EpsilonGreedyResults.rewards.indexOf(highestReward)
-  }
-
-  // prd = Pseudo Random Double
-  private def prd : Double = {
-    val randomNumber = Random.nextDouble()
-    //println("random number: " + randomNumber )
-    randomNumber
-  }
-
-  def main(args: Array[String]): Unit = {
-    //val eg : EpsilonGreedy = new EpsilonGreedy(0.9, 5)
-    //eg.returnArmForExplorationOrExperimentation
-
-    EpsilonGreedySanityCheck.sanityCheck(10, 150000,
-      "/home/brycemcd/Desktop/epsilonGreedySanityCheck.txt")
-  }
-}
-
 // this is meant to stub the "update" method from the book
 object EpsilonGreedyResults {
 
@@ -37,7 +13,30 @@ object EpsilonGreedyResults {
   }
 
   def rewards : Array[Double] = {
-    Array(1.0, 12.0, 19.0, 2.0)
+    Array(1.0, 12.0, 8.0, 2.0)
+  }
+}
+
+object EpsilonGreedy {
+
+  // a.k.a. indMax from the book
+  def highestKnownRewardIndex : Int = {
+    val highestReward = EpsilonGreedyResults.rewards.max
+    EpsilonGreedyResults.rewards.indexOf(highestReward)
+  }
+
+  // prd = Pseudo Random Double
+  private def prd : Double = {
+    val randomNumber = Random.nextDouble()
+    randomNumber
+  }
+
+  def main(args: Array[String]): Unit = {
+    //val eg : EpsilonGreedy = new EpsilonGreedy(0.9, 5)
+    //eg.returnArmForExplorationOrExperimentation
+
+    EpsilonGreedySanityCheck.sanityCheck(10, 150000,
+      "/home/brycemcd/Desktop/epsilonGreedySanityCheck.txt")
   }
 }
 
@@ -51,13 +50,6 @@ class EpsilonGreedy (
 ) {
 
 
-  def printAttrs = {
-    println("  ----vals")
-    println(epsilon)
-    println(nArms)
-    println("  ----vals")
-  }
-
   def returnArmForExplorationOrExperimentation() : Tuple3[String, Int, Double] = {
     val numChosen = EpsilonGreedy.prd
     if (numChosen > epsilon) {
@@ -69,7 +61,6 @@ class EpsilonGreedy (
 
   def randomArm() : Int = {
     val randomIndex = Random.nextInt( EpsilonGreedyResults.rewards.length + 1 )
-    //println("random index: " + randomIndex )
     randomIndex
   }
 }

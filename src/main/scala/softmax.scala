@@ -4,11 +4,6 @@ import scala.util.Random
 
 object Softmax {
 
-  def main(args: Array[String]) = {
-    val sm = new Softmax(2.0, EpsilonGreedyResults.rewards)
-    println("arm: " + sm.selectArm)
-  }
-
   def categoricalDraw(probs: Array[Double]) : Double = {
     val z = Random.nextDouble
     var i = 0
